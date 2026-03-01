@@ -10,9 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download tar.gz from latest release
+        id: get-latest-tag
         run: |
-          LATEST_TAG=$(curl -s https://api.github.com/repos/cadamsdev/vscode-jetbrains-icon-theme/releases/latest | grep 'tag_name' | cut -d '"' -f4)
+          LATEST_TAG=$(curl -s https://api.github.com/repos/cadamsdev/vscode-jetbrains-icon-theme/releases/latest | grep '"tag_name"' | head -n 1 | cut -d '"' -f4)
           echo "Latest tag: $LATEST_TAG"
+          if [ -z "$LATEST_TAG" ]; then
+            echo "Could not determine latest tag. Aborting."
+            exit 1
+          fi
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           curl -L -o source.tar.gz "https://github.com/cadamsdev/vscode-jetbrains-icon-theme/archive/refs/tags/$LATEST_TAG.tar.gz"
 
       - name: Checkout repository
