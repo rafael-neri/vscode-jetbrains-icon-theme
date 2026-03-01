@@ -28,7 +28,7 @@ jobs:
         id: check-tag
         run: |
           TAG_EXISTS=$(git ls-remote --tags origin "refs/tags/$VERSION" | wc -l)
-          echo "Tag exists: $TAG_EXISTS"
+          echo "Tag exists ($VERSION): $TAG_EXISTS"
           echo "exists=$TAG_EXISTS" >> $GITHUB_OUTPUT
 
       - name: Stop if tag already exists
