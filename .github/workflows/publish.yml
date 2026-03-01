@@ -64,6 +64,7 @@ jobs:
         id: get-version
         run: |
           VERSION=${LATEST_TAG#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Package extension
@@ -73,13 +74,13 @@ jobs:
       - name: Publish to Open VSX
         uses: HaaLeo/publish-vscode-extension@v2
         with:
-          extensionFile: ${{ github.workspace }}/source/vscode-jetbrains-icon-theme-${{ env.LATEST_TAG#v }}.vsix
+          extensionFile: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         with:
-          files: ${{ github.workspace }}/source/vscode-jetbrains-icon-theme-${{ env.LATEST_TAG#v }}.vsix
+          files: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
