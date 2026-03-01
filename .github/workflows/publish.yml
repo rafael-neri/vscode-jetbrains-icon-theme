@@ -44,7 +44,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag -f "$VERSION"
-          git push origin ":refs/tags/ GitHub Releases requires a tag" # delete old tag if exists
+          git push origin ":refs/tags/$VERSION" # delete old tag if exists
           git push origin "$VERSION"
 
       - name: Extract tar.gz content
