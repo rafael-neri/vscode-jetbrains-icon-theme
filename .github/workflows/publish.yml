@@ -9,6 +9,9 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download tar.gz from latest release
         id: get-latest-tag
         run: |
@@ -20,9 +23,6 @@ jobs:
           fi
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           curl -L -o source.tar.gz "https://github.com/cadamsdev/vscode-jetbrains-icon-theme/archive/refs/tags/$LATEST_TAG.tar.gz"
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Check if tag already exists in this repository
         id: check-tag
