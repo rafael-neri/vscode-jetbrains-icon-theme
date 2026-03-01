@@ -32,7 +32,7 @@ jobs:
           echo "exists=$TAG_EXISTS" >> $GITHUB_OUTPUT
 
       - name: Stop if tag already exists
-        if: github.event_name != 'workflow_dispatch' && steps.check-tag.outputs.exists == '1'
+        if: steps.check-tag.outputs.exists == '1'
         run: |
           echo "Tag $VERSION already exists in this repository. Skipping build and publish."
           exit 0
@@ -75,7 +75,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         with:
           tag_name: "${{ env.VERSION }}"
-          name: "JetBrains Icon Theme ${{ env.VERSION }}"
           files: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
