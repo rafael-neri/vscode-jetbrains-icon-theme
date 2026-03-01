@@ -15,6 +15,9 @@ jobs:
           echo "Latest tag: $LATEST_TAG"
           curl -L -o source.tar.gz "https://github.com/cadamsdev/vscode-jetbrains-icon-theme/archive/refs/tags/$LATEST_TAG.tar.gz"
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Check if tag already exists in this repository
         id: check-tag
         run: |
