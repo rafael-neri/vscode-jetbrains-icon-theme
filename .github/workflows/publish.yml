@@ -70,11 +70,11 @@ jobs:
         working-directory: ./source
         run: npm run package
 
-      - name: Publish to Open VSX
-        uses: HaaLeo/publish-vscode-extension@v2
-        with:
-          extensionFile: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
-          pat: ${{ secrets.OPEN_VSX_TOKEN }}
+      # - name: Publish to Open VSX
+      #   uses: HaaLeo/publish-vscode-extension@v2
+      #   with:
+      #     extensionFile: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
+      #     pat: ${{ secrets.OPEN_VSX_TOKEN }}
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v2
