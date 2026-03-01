@@ -21,31 +21,31 @@ jobs:
             echo "Could not determine latest tag. Aborting."
             exit 1
           fi
-          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           curl -L -o source.tar.gz "https://github.com/cadamsdev/vscode-jetbrains-icon-theme/archive/refs/tags/$LATEST_TAG.tar.gz"
+          echo "VERSION=${LATEST_TAG#v}" >> $GITHUB_ENV
 
       - name: Check if tag already exists in this repository
         id: check-tag
         run: |
-          TAG_EXISTS=$(git ls-remote --tags origin "refs/tags/$LATEST_TAG" | wc -l)
+          TAG_EXISTS=$(git ls-remote --tags origin "refs/tags/$VERSION" | wc -l)
           echo "Tag exists: $TAG_EXISTS"
           echo "exists=$TAG_EXISTS" >> $GITHUB_OUTPUT
 
       - name: Stop if tag already exists
         if: github.event_name != 'workflow_dispatch' && steps.check-tag.outputs.exists == '1'
         run: |
-          echo "Tag $LATEST_TAG already exists in this repository. Skipping build and publish."
+          echo "Tag $VERSION already exists in this repository. Skipping build and publish."
           exit 0
 
       # Add or update tag if manual run
-      - name: Create or update tag (manual only)
+      - name: Create or update tag
         if: github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag -f "$LATEST_TAG"
-          git push origin ":refs/tags/$LATEST_TAG" # delete old tag if exists
-          git push origin "$LATEST_TAG"
+          git tag -f "$VERSION"
+          git push origin ":refs/tags/ GitHub Releases requires a tag" # delete old tag if exists
+          git push origin "$VERSION"
 
       - name: Extract tar.gz content
         run: |
@@ -59,12 +59,6 @@ jobs:
       - name: Prebuild
         working-directory: ./source
         run: npm run prebuild
-
-      - name: Get extension version
-        id: get-version
-        run: |
-          VERSION=${LATEST_TAG#v}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Package extension
         working-directory: ./source
@@ -80,6 +74,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         with:
+          tag_name: "${{ env.VERSION }}"
+          name: "JetBrains Icon Theme ${{ env.VERSION }}"
           files: source/vscode-jetbrains-icon-theme-${{ env.VERSION }}.vsix
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
