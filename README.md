@@ -2,7 +2,7 @@
 
 This repository automates publishing the JetBrains Icon Theme extension to the [Open VSX Registry](https://open-vsx.org/extension/chadalen/vscode-jetbrains-icon-theme), making it available for VS Code, VSCodium, and compatible editors.
 
-- The extension source is maintained at: https://github.com/cadamsdev/vscode-jetbrains-icon-theme
+- The extension source is maintained at: https://github.com/peakoss/vscode-jetbrains-icon-theme
 - This repo only handles packaging and Open VSX publication.
 
 ## How it works
@@ -11,7 +11,7 @@ This repository automates publishing the JetBrains Icon Theme extension to the [
 - No manual action is required for regular publishing.
 
 ## Links
-- [Original Extension (GitHub)](https://github.com/cadamsdev/vscode-jetbrains-icon-theme)
+- [Original Extension (GitHub)](https://github.com/peakoss/vscode-jetbrains-icon-theme)
 - [Open VSX Registry](https://open-vsx.org/extension/chadalen/vscode-jetbrains-icon-theme)
 - [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=chadalen.vscode-jetbrains-icon-theme)
 
